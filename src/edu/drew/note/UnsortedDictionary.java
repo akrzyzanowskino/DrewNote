@@ -1,6 +1,6 @@
 package edu.drew.note;
 
-public class UnsortedDictionary<N> implements NoteCollection {
+public class UnsortedDictionary implements NoteCollection {
 	private int numEntries = 0;
 	private Note[] Note;
 	
