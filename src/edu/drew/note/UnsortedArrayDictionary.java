@@ -10,7 +10,7 @@ public class UnsortedArrayDictionary implements NoteCollection {
 	
 	
 	public UnsortedArrayDictionary() {
-		arrayDictionary = (Note[]) new Object[DEFAULT_CAPACITY];
+		arrayDictionary = (Note[]) new Note[DEFAULT_CAPACITY];
 	}
 	
 
@@ -24,10 +24,10 @@ public class UnsortedArrayDictionary implements NoteCollection {
 
 	@Override
 	public Note lookup(long ID) {
-		for (Note n: arrayDictionary){
+		for (Note n: arrayDictionary)
 			if (n.getID() == ID)
 				return n;		
-		}
+		
 		return null;
 	}
 
@@ -92,11 +92,12 @@ public class UnsortedArrayDictionary implements NoteCollection {
 			return true;
 		}
 			return false;
+			
 	}
 
 	@Override
 	public Note[] toArray() {
-		Note[] result = (Note[])new Object[numEntries];
+		Note[] result = (Note[])new Note[numEntries];
 		for (int i = 0; i < numEntries; i++)
 		result[i] = arrayDictionary[i];
 		return result;
