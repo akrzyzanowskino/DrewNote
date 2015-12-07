@@ -32,18 +32,20 @@ private class Node{
 
 	//adds new entry to dictionary
 	public boolean add(Note newNote){
+		if(newNote!=null){
 		firstNode=new Node(newNote.getID(),newNote,firstNode);
 		numEntries++;
 		return true;
+		}
+		return false;
 	}
 	
 	//returns an array representation of the dictionary
 	public Note[] toArray(){
-		Note[] array= (Note[]) new Object[numEntries];
+		Note[] array= new Note[getSize()];
 		Node n=firstNode;
-		int i=0;
-		while(n!=null){
-			array[i]=n.Note;
+		for(int i=0; i<getSize();i++){
+			array[i]=firstNode.Note;
 			i++;
 			n=n.next;
 		}
@@ -112,10 +114,8 @@ private class Node{
 	
 	//removes all notes from dictionary
 	public void clear(){
-		while(!isEmpty()){
-			firstNode=firstNode.next;
-			numEntries--;
-		}
+			firstNode=null;
+			numEntries=0;
 	}
 	
 	//searches for a note in the dictionary by its id
