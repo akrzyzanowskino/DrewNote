@@ -87,12 +87,7 @@ public class UnsortedArrayDictionary implements NoteCollection {
 
 	@Override
 	public boolean contains(long ID) {
-		for (Note n: arrayDictionary){
-		if (n.equals(ID))
-			return true;
-		}
-			return false;
-			
+		return lookup(ID) != null;			
 	}
 
 	@Override

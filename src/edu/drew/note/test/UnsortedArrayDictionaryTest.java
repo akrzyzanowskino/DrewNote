@@ -9,59 +9,164 @@ import edu.drew.note.UnsortedArrayDictionary;
 
 
 public class UnsortedArrayDictionaryTest{
-	private UnsortedArrayDictionary note = new UnsortedArrayDictionary();
+	private UnsortedArrayDictionary notes = new UnsortedArrayDictionary();
+	private static final int SIZE = 100;
+	private Note[] array = new Note[SIZE];
 	
-	
-	@Test
-	public void  addTest(){
-		note = new UnsortedArrayDictionary();
+	protected void setUp() {
+		array = new Note[SIZE];
+		for (int i = 0; i < SIZE; i++)
+			array[i] = new Note();
+	}
+
+	private Note addOneElement() {
+		notes = new UnsortedArrayDictionary();
 		Note n = new Note();
-		note.add(n);
+		notes.add(n);
+		return n;
+	}
+	
+	private int addManyElements() {
+		notes = new UnsortedArrayDictionary();
+		for (int i = 0; i < SIZE; i++)
+			notes.add(array[i]);
+		return SIZE;
 	}
 	
 	@Test
-	public void lookupTest(){
-		note = new UnsortedArrayDictionary();
+	public void testAddNullElement() {
+		int n = notes.getSize();
+		// no exceptions!
+		notes.add(null);
+		assertEquals(n, notes.getSize());
+	}
+	
+	@Test
+	public void testIsEmpty() {
+		notes = new UnsortedArrayDictionary();
+		assertTrue(notes.isEmpty());
+	}
+	
+	@Test
+	public void testIsNotEmpty() {
+		notes = new UnsortedArrayDictionary();
+		notes.add(new Note());
+		assertFalse(notes.isEmpty());
+	}
+	
+	@Test
+	public void testSizeOne() {
+		notes = new UnsortedArrayDictionary();
+		notes.add(new Note());
+		assertEquals(1, notes.getSize());
+	}
+	
+	@Test
+	public void testSizeMany() {
+		int size = addManyElements();
+		assertEquals(size, notes.getSize());
+	}
+	
+	@Test
+	public void testAddOne() {
+		Note n = addOneElement();
+		assertEquals(1, notes.getSize());
+		assertTrue(notes.contains(n));
+	}
+	
+	@Test
+	public void testAddMany() {
+		int size = addManyElements();
+		assertEquals(size, notes.getSize());
+		for (int i = 0; i < size; i++) {
+			assertTrue(notes.contains(array[i]));
+			assertTrue(notes.contains(array[i].getID()));
+		}
+	}
+	
+	@Test
+	public void testLookupOne() {
+		Note n = addOneElement();
+		assertEquals(n, notes.lookup(n.getID()));
+		assertTrue(notes.contains(n));
+	}
+	
+	@Test
+	public void testLookupMany() {
+		int size = addManyElements();
+		assertEquals(size, notes.getSize());
+		for (int i = 0; i < size; i++) {
+			assertEquals(array[i], notes.lookup(array[i].getID()));
+		}
+	}
+	
+	@Test
+	public void testRemoveOneNote() {
+		Note n = addOneElement();
+		notes.remove(n);
+		assertFalse(notes.contains(n));
+	}
+	
+	@Test
+	public void testRemoveOneNoteByID() {
+		Note n = addOneElement();
+		notes.remove(n.getID());
+		assertFalse(notes.contains(n.getID()));
+	}
+	
+	@Test
+	public void testRemoveEmpty() {
+		notes = new UnsortedArrayDictionary();
 		Note n = new Note();
-		assertEquals(n, note.equals(n.getID()));
-		assertTrue(note.contains(n));
+		// below should throw no exceptions!
+		notes.remove(n.getID()); 
+		notes.remove(n);
+		notes.remove(null);
 	}
 	
 	@Test
-	public void removeNoteTest(){
-		note = new UnsortedArrayDictionary();
-		Note n = new Note();
-		note.remove(n);
-		assertFalse(note.equals(n));
+	public void testRemoveManyNotes() {
+		int size = addManyElements();
+		for (int i = 0; i < size; i++) {
+			notes.remove(array[i]);
+			assertFalse(notes.contains(array[i]));
+		}
+	}
+
+	@Test
+	public void testRemoveManyNotesByID() {
+		int size = addManyElements();
+		for (int i = 0; i < size; i++) {
+			notes.remove(array[i].getID());
+			assertFalse(notes.contains(array[i].getID()));
+		}
 	}
 	
 	@Test
-	public void removeIDTest(){
-		note = new UnsortedArrayDictionary();
-		Note n = new Note();
-		note.remove(n.getID());
-		assertFalse(note.equals(n.getID()));
+	public void testToArrayEmpty() {
+		notes = new UnsortedArrayDictionary();
+		Note[] a = notes.toArray();
+		assertEquals(0, a.length);
 	}
 	
 	@Test
-	public void toArrayTest(){
-		note = new UnsortedArrayDictionary();
-		Note[] n = note.toArray();
-		assertEquals(0, n.length);
+	public void testToArrayOne() {
+		Note n = addOneElement();
+		Note[] a = notes.toArray();
+		assertEquals(1, a.length);
+		assertEquals(n, a[0]);
 	}
-	
+
 	@Test
-	public void isEmptyTest(){
-		note = new UnsortedArrayDictionary();
-		assertTrue(note.isEmpty());
-	}
-	
-	
-	@Test
-	public void getSizeTest(){
-		note = new UnsortedArrayDictionary();
-		note.add(new Note());
-		assertEquals(1, note.getSize());
+	public void testToArrayMany() {
+		int size = addManyElements();
+		Note[] a = notes.toArray();
+		assertEquals(size, a.length);
+		// since the input order is the sorted order, 
+		// should be able to check all
+		for (int i = 0; i < size; i++) {
+			assertEquals(array[i], a[i]);
+		}
 	}
 	
 	
