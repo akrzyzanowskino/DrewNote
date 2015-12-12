@@ -39,8 +39,8 @@ public class UnsortedArrayDictionary implements NoteCollection {
 		return null;
 	}
 	
-	public  void getID(long ID){
-		return;
+	public  long getID(long ID){
+		return ID;
 	}
 
 	@Override
@@ -49,8 +49,8 @@ public class UnsortedArrayDictionary implements NoteCollection {
 	
 			if (arrayDictionary[i].equals(ID)) {
 				arrayDictionary[i] = arrayDictionary[numEntries-1];
+				arrayDictionary[numEntries - 1] = null;
 				numEntries--;
-				
 				return true;
 			}
 		}
@@ -63,6 +63,7 @@ public class UnsortedArrayDictionary implements NoteCollection {
 			
 			if (arrayDictionary[i].equals(note)) {
 				arrayDictionary[i] = arrayDictionary[numEntries-1];
+				arrayDictionary[numEntries - 1] = null;
 				numEntries--;
 				return true;
 			}
